@@ -8,8 +8,8 @@ body {
 }
 
 #game-container {
-    width: 800px; /* Oyun alanının genişliği artırıldı */
-    height: 600px; /* Oyun alanının yüksekliği artırıldı */
+    width: 800px; /* Oyun alanının genişliği */
+    height: 600px; /* Oyun alanının yüksekliği */
     background-color: #fff;
     border: 2px solid #000;
     position: relative;
@@ -39,8 +39,26 @@ body {
 .obstacle {
     width: 50px;
     height: 50px;
+    position: absolute;
+}
+
+.obstacle-type1 {
     background-image: url('ejderha.png');
     background-size: cover;
+}
+
+.obstacle-type2 {
+    background-image: url('tuzak.png'); /* Yeni bir engel türü */
+    background-size: cover;
+}
+
+.obstacle-type3 {
+    background-image: url('lav.png'); /* Yeni bir engel türü */
+    background-size: cover;
+}
+
+.wall {
+    background-color: gray;
     position: absolute;
 }
 
