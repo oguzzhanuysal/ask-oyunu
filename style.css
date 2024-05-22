@@ -1,0 +1,89 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    background-color: #f0f0f0;
+}
+
+#game-container {
+    width: 800px; /* Oyun alanının genişliği artırıldı */
+    height: 600px; /* Oyun alanının yüksekliği artırıldı */
+    background-color: #fff;
+    border: 2px solid #000;
+    position: relative;
+}
+
+#character {
+    width: 50px;
+    height: 50px;
+    background-image: url('prenses.png');
+    background-size: cover;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transition: all 0.2s ease;
+}
+
+#target {
+    width: 50px;
+    height: 50px;
+    background-image: url('prens.png');
+    background-size: cover;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.obstacle {
+    width: 50px;
+    height: 50px;
+    background-image: url('ejderha.png');
+    background-size: cover;
+    position: absolute;
+}
+
+.hidden {
+    display: none;
+}
+
+#heart {
+    font-size: 5rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: bounce 1s infinite;
+}
+
+#message {
+    font-size: 2rem;
+    color: #ff69b4;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+@keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+        transform: translate(-50%, -50%) scale(1);
+    }
+    40% {
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    60% {
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}
+
+.particle {
+    width: 10px;
+    height: 10px;
+    background-color: red;
+    position: absolute;
+    opacity: 0;
+    transition: all 1s ease;
+}
