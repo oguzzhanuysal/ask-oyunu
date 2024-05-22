@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
     const character = document.getElementById('character');
     const target = document.getElementById('target');
     const obstacles = document.querySelectorAll('.obstacle');
+    const walls = document.querySelectorAll('.wall');
     const heart = document.getElementById('heart');
     const message = document.getElementById('message');
     let characterPosition = { top: 0, left: 0 };
@@ -38,17 +39,19 @@ document.addEventListener('DOMContentLoaded', (event) => {
 
     function moveObstacles() {
         obstacles.forEach(obstacle => {
-            let top = parseInt(obstacle.style.top);
-            top += Math.random() > 0.5 ? moveStep : -moveStep;
-            if (top < 0) top = 0;
-            if (top > 550) top = 550;
-            obstacle.style.top = `${top}px`;
+            if (obstacle.classList.contains('obstacle-type1')) {
+                let top = parseInt(obstacle.style.top);
+                top += Math.random() > 0.5 ? moveStep : -moveStep;
+                if (top < 0) top = 0;
+                if (top > 550) top = 550;
+                obstacle.style.top = `${top}px`;
 
-            let left = parseInt(obstacle.style.left);
-            left += Math.random() > 0.5 ? moveStep : -moveStep;
-            if (left < 0) left = 0;
-            if (left > 750) left = 750;
-            obstacle.style.left = `${left}px`;
+                let left = parseInt(obstacle.style.left);
+                left += Math.random() > 0.5 ? moveStep : -moveStep;
+                if (left < 0) left = 0;
+                if (left > 750) left = 750;
+                obstacle.style.left = `${left}px`;
+            }
         });
     }
 
@@ -81,8 +84,9 @@ document.addEventListener('DOMContentLoaded', (event) => {
                 break;
         }
 
-        // Yeni konumda engelleri kontrol et
+        // Yeni konumda engelleri ve duvarları kontrol et
         let collision = false;
+        let isDangerousCollision = false;
         const newRect = {
             top: newTop,
             left: newLeft,
@@ -99,6 +103,21 @@ document.addEventListener('DOMContentLoaded', (event) => {
             };
             if (checkCollision(newRect, obstacleRect)) {
                 collision = true;
+                if (obstacle.classList.contains('obstacle-type1') || obstacle.classList.contains('obstacle-type2') || obstacle.classList.contains('obstacle-type3')) {
+                    isDangerousCollision = true;
+                }
+            }
+        });
+
+        walls.forEach(wall => {
+            const wallRect = {
+                top: parseInt(wall.style.top),
+                left: parseInt(wall.style.left),
+                right: parseInt(wall.style.left) + parseInt(wall.style.width),
+                bottom: parseInt(wall.style.top) + parseInt(wall.style.height)
+            };
+            if (checkCollision(newRect, wallRect)) {
+                collision = true;
             }
         });
 
@@ -108,12 +127,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
             character.style.top = `${characterPosition.top}px`;
             character.style.left = `${characterPosition.left}px`;
         } else {
-            explodeCharacter(characterPosition.left, characterPosition.top);
-            setTimeout(() => {
-                character.style.display = 'none'; // Karakteri görünmez yap
-                alert("Oyun Bitti! Engellere çarptınız.");
-                location.reload();
-            }, 500);
+            if (isDangerousCollision) {
+                explodeCharacter(characterPosition.left, characterPosition.top);
+                setTimeout(() => {
+                    character.style.display = 'none'; // Karakteri görünmez yap
+                    alert("Oyun Bitti! Tehlikeli bir engele çarptınız.");
+                    location.reload();
+                }, 500);
+            }
             return; // Hedef kontrolünü atla
         }
 
